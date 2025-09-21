@@ -5,11 +5,13 @@ import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import io.shashanksm.pms.business.exceptions.ParkingNotCompletedException;
 import io.shashanksm.pms.dtos.ParkingDto;
 import io.shashanksm.pms.dtos.PricingRuleDto;
 
+@Component
 public class StandardRuleBasedPriceCalculator implements PriceCalculator {
 
 	private static final Logger log = LoggerFactory.getLogger(StandardRuleBasedPriceCalculator.class);

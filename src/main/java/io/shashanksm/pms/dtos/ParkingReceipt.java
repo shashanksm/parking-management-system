@@ -12,7 +12,6 @@ public final class ParkingReceipt {
     private final String owner;
     private final String vehicleNumber;
     private final String parkingLot;
-    private final int entryGate;
     private final int slotNumber;
     private final Instant entryTime;
     private final Instant exitTime;          // NEW: Completion time
@@ -26,7 +25,6 @@ public final class ParkingReceipt {
         this.owner = builder.owner;
         this.vehicleNumber = builder.vehicleNumber;
         this.parkingLot = builder.parkingLot;
-        this.entryGate = builder.entryGate;
         this.slotNumber = builder.slotNumber;
         this.entryTime = builder.entryTime;
         this.exitTime = builder.exitTime;
@@ -58,9 +56,6 @@ public final class ParkingReceipt {
         return parkingLot;
     }
 
-    public int getEntryGate() {
-        return entryGate;
-    }
 
     public int getSlotNumber() {
         return slotNumber;
@@ -113,7 +108,6 @@ public final class ParkingReceipt {
         private String owner;
         private String vehicleNumber;
         private String parkingLot;
-        private int entryGate;
         private int slotNumber;
         private Instant entryTime;
         private Instant exitTime;
@@ -141,10 +135,6 @@ public final class ParkingReceipt {
             return this;
         }
 
-        public Builder entryGate(int entryGate) {
-            this.entryGate = entryGate;
-            return this;
-        }
 
         public Builder slotNumber(int slotNumber) {
             this.slotNumber = slotNumber;
