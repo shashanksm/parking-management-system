@@ -11,9 +11,7 @@ import io.shashanksm.pms.business.PriceCalculator;
 import io.shashanksm.pms.dtos.ParkingDto;
 import io.shashanksm.pms.dtos.ParkingReceipt;
 import io.shashanksm.pms.entities.Parking;
-import io.shashanksm.pms.entities.Vehicle;
 import io.shashanksm.pms.repositories.ParkingRepository;
-import io.shashanksm.pms.repositories.VehicleRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -60,6 +58,7 @@ public class ParkingPaymentService {
 		
 		
 		return ParkingReceipt.builder()
+				.id(parkingId)
 				.entryTime(parking.getCreatedAt())
 				.owner(owner)
 				.vehicleNumber(vehicleNumber)

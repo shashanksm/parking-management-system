@@ -2,37 +2,35 @@ package io.shashanksm.pms.business;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import io.shashanksm.pms.business.exceptions.NoPricingRuleFoundException;
 import io.shashanksm.pms.business.exceptions.ParkingNotCompletedException;
 import io.shashanksm.pms.dtos.ParkingDto;
 import io.shashanksm.pms.dtos.PricingRuleDto;
+import io.shashanksm.pms.dtos.VehicleDto;
+import io.shashanksm.pms.entities.PricingRule;
+import io.shashanksm.pms.repositories.PricingRuleRepository;
+import io.shashanksm.pms.repositories.VehicleRepository;
 
-@Component
+@Service
 public class StandardRuleBasedPriceCalculator implements PriceCalculator {
 
 	private static final Logger log = LoggerFactory.getLogger(StandardRuleBasedPriceCalculator.class);
+	
+	private PricingRuleRepository pricingRuleRepository;
+	
+	private VehicleRepository vehicleRepository;
 
-	private PricingRuleDto pricingRuleDto;
-
-	public StandardRuleBasedPriceCalculator(PricingRuleDto pricingRuleDto) {
+	public StandardRuleBasedPriceCalculator(PricingRuleRepository pricingRuleRepository, VehicleRepository vehicleRepository) {
 		super();
-		this.pricingRuleDto = pricingRuleDto;
-	}
-
-	public StandardRuleBasedPriceCalculator() {
-		super();
-	}
-
-	public PricingRuleDto getPricingRuleDto() {
-		return pricingRuleDto;
-	}
-
-	public void setPricingRuleDto(PricingRuleDto pricingRuleDto) {
-		this.pricingRuleDto = pricingRuleDto;
+		this.pricingRuleRepository = pricingRuleRepository;
+		this.vehicleRepository = vehicleRepository;
 	}
 
 	@Override
@@ -41,7 +39,20 @@ public class StandardRuleBasedPriceCalculator implements PriceCalculator {
 		//check if parking is complete
 		if(parkingDto.completedAt() == null)
 			throw new ParkingNotCompletedException();
+		
+		//get the first active pricing-rule
+		
+		log.info("vehicle id = "+parkingDto.vehicleId());
+		int vehicleType = vehicleRepository.findById(parkingDto.vehicleId()).get().getType();
+		
+		Optional<PricingRule> pricingRuleOptional = pricingRuleRepository.findByVehicleTypeAndActiveTrue(vehicleType);
 
+		if(pricingRuleOptional.isEmpty()) {
+			throw new NoPricingRuleFoundException();
+		}
+		
+		PricingRuleDto pricingRuleDto = PricingRuleDto.fromEntity(pricingRuleOptional.get());
+		
 		Instant entryTime = parkingDto.createdAt();
 		Instant exitTime = parkingDto.completedAt();
 		double hoursParked = ((double) Duration.between(entryTime, exitTime).toMinutes()) / 60.0;
