@@ -16,7 +16,7 @@ import io.shashanksm.pms.dtos.ParkingReceipt;
 import io.shashanksm.pms.services.ParkingPaymentService;
 
 @RestController
-@RequestMapping("/api/receipts")
+@RequestMapping("/api")
 public class ParkingReceiptController {
 	
 	private static final Logger log = LoggerFactory.getLogger(ParkingReceiptController.class);
@@ -27,7 +27,7 @@ public class ParkingReceiptController {
 		this.parkingPaymentService = parkingPaymentService;
 	}
 	
-	@PostMapping
+	@PostMapping("/receipts")
 	public ResponseEntity<ParkingReceipt> generateReceipt(@RequestBody ParkingReceiptRequest parkingReceiptRequest) {
 		
 		long parkingId = parkingReceiptRequest.id();
@@ -37,4 +37,25 @@ public class ParkingReceiptController {
 		
 		return ResponseEntity.ok(parkingReceipt);
 	}
+	
+	@PostMapping("/payments")
+	public ResponseEntity<Void> acceptPayment(@RequestBody ParkingReceiptRequest parkingReceiptRequest) {
+		long parkingId = parkingReceiptRequest.id();
+		Instant exitTime = parkingReceiptRequest.exitTime();
+		
+		parkingPaymentService.acceptPayment(parkingId, exitTime);
+		
+		return ResponseEntity.ok().build();
+	}
+	
+	@PostMapping("/exit")
+	public ResponseEntity<Void> exit(@RequestBody ParkingReceiptRequest parkingReceiptRequest) {
+		long parkingId = parkingReceiptRequest.id();
+		
+		
+		parkingPaymentService.exit(parkingId);
+		
+		return ResponseEntity.ok().build();
+	}
+	
 }

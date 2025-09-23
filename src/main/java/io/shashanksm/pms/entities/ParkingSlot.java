@@ -24,13 +24,13 @@ public class ParkingSlot {
 	private ParkingLot parkingLot;
 
 	@Column(name = "slot_number")
-	private int slotNumber;
+	private Integer slotNumber;
 
 	@Column(name = "floor_number")
-	private int floorNumber;
+	private Integer floorNumber;
 	
 	@Column(name = "parking_type")
-	private int parkingType;
+	private Integer parkingType;
 
 	@Column(name = "available")
 	private boolean available;
@@ -67,7 +67,7 @@ public class ParkingSlot {
 		this.parkingLot = parkingLot;
 	}
 
-	public int getSlotNumber() {
+	public Integer getSlotNumber() {
 		return slotNumber;
 	}
 
@@ -75,7 +75,7 @@ public class ParkingSlot {
 		this.slotNumber = slotNumber;
 	}
 
-	public int getFloorNumber() {
+	public Integer getFloorNumber() {
 		return floorNumber;
 	}
 
@@ -91,7 +91,7 @@ public class ParkingSlot {
 		this.available = status;
 	}
 
-	public int getParkingType() {
+	public Integer getParkingType() {
 		return parkingType;
 	}
 

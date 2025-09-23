@@ -22,7 +22,7 @@ public class ParkingLotEntryGate {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parking_lot", nullable = false)
