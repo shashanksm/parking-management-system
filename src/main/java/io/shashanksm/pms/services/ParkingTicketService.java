@@ -1,5 +1,6 @@
 package io.shashanksm.pms.services;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import io.shashanksm.pms.business.ParkingAllotmentStrategy;
 import io.shashanksm.pms.business.exceptions.InvalidGateDetailsException;
+import io.shashanksm.pms.business.exceptions.VehicleAlreadyParkedException;
 import io.shashanksm.pms.controllers.requests.ParkingEntryRequest;
 import io.shashanksm.pms.dtos.ParkingLotEntryGateDto;
 import io.shashanksm.pms.dtos.ParkingSlotDto;
@@ -53,10 +55,18 @@ public class ParkingTicketService {
 	@Transactional
 	public Optional<ParkingTicket> issueParkingTicket(ParkingEntryRequest parkingEntryRequest) {
 		Optional<ParkingTicket> ret = Optional.empty();
+		
+		log.info("checking for existing vehicle entry");
+        String vehicleNumber = parkingEntryRequest.vehicleNumber();
+        List<Vehicle> existingVehicle = vehicleRepository.findByVehicleNumber(vehicleNumber);
+
+        if (!existingVehicle.isEmpty()) { 
+           throw new VehicleAlreadyParkedException("Vehicle with number " + vehicleNumber + " is already parked.");
+        }
 
 		log.info("creating vehicle entry");
 
-		String vehicleNumber = parkingEntryRequest.vehicleNumber();
+		vehicleNumber = parkingEntryRequest.vehicleNumber();
 		String owner = parkingEntryRequest.owner();
 		int type = parkingEntryRequest.vehicleType();
 		Vehicle vehicle = new Vehicle(null, vehicleNumber, owner, type);
