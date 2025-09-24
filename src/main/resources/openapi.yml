@@ -1,0 +1,305 @@
+openapi: 3.0.3
+info:
+  title: Parking Management System API
+  version: 1.0.0
+  description: API for managing parking lots, slots, tickets, receipts, and pricing rules.
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/parking-tickets:
+    post:
+      summary: Issue a new parking ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParkingTicketRequest'
+      responses:
+        '201':
+          description: Ticket issued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParkingTicket'
+  /api/parking-tickets/{ticketId}:
+    get:
+      summary: Get parking ticket details
+      parameters:
+        - in: path
+          name: ticketId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ticket details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParkingTicket'
+  /api/parking-receipts:
+    post:
+      summary: Complete parking session and generate receipt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParkingReceiptRequest'
+      responses:
+        '201':
+          description: Receipt generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParkingReceipt'
+  /api/parking-receipts/{receiptId}:
+    get:
+      summary: Get parking receipt details
+      parameters:
+        - in: path
+          name: receiptId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Receipt details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParkingReceipt'
+  /api/parking-lots:
+    get:
+      summary: List all parking lots
+      responses:
+        '200':
+          description: List of parking lots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParkingLot'
+    post:
+      summary: Create a new parking lot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParkingLotCreateRequest'
+      responses:
+        '201':
+          description: Parking lot created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParkingLot'
+  /api/parking-lots/{lotId}:
+    get:
+      summary: Get parking lot details
+      parameters:
+        - in: path
+          name: lotId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Parking lot details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParkingLot'
+  /api/parking-slots:
+    get:
+      summary: List all parking slots
+      responses:
+        '200':
+          description: List of parking slots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParkingSlot'
+    post:
+      summary: Create a new parking slot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParkingSlotCreateRequest'
+      responses:
+        '201':
+          description: Parking slot created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParkingSlot'
+  /api/pricing-rules:
+    get:
+      summary: List all pricing rules
+      responses:
+        '200':
+          description: List of pricing rules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PricingRule'
+    post:
+      summary: Create a new pricing rule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PricingRuleCreateRequest'
+      responses:
+        '201':
+          description: Pricing rule created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricingRule'
+
+components:
+  schemas:
+    ParkingTicketRequest:
+      type: object
+      properties:
+        vehicleNumber:
+          type: string
+        entryGateId:
+          type: integer
+      required: [vehicleNumber, entryGateId]
+    ParkingTicket:
+      type: object
+      properties:
+        id:
+          type: integer
+        vehicleNumber:
+          type: string
+        entryTime:
+          type: string
+          format: date-time
+        slotNumber:
+          type: integer
+        parkingLot:
+          type: string
+        status:
+          type: string
+    ParkingReceiptRequest:
+      type: object
+      properties:
+        ticketId:
+          type: integer
+      required: [ticketId]
+    ParkingReceipt:
+      type: object
+      properties:
+        id:
+          type: integer
+        owner:
+          type: string
+        vehicleNumber:
+          type: string
+        parkingLot:
+          type: string
+        slotNumber:
+          type: integer
+        entryTime:
+          type: string
+          format: date-time
+        exitTime:
+          type: string
+          format: date-time
+        paymentAmount:
+          type: number
+          format: double
+    ParkingLot:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        floors:
+          type: integer
+    ParkingLotCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        floors:
+          type: integer
+      required: [name, floors]
+    ParkingSlot:
+      type: object
+      properties:
+        id:
+          type: integer
+        slotNumber:
+          type: integer
+        floorNumber:
+          type: integer
+        parkingType:
+          type: integer
+        available:
+          type: boolean
+    ParkingSlotCreateRequest:
+      type: object
+      properties:
+        parkingLot:
+          type: integer
+        slotNumber:
+          type: integer
+        floorNumber:
+          type: integer
+        parkingType:
+          type: integer
+        available:
+          type: boolean
+      required: [parkingLot, slotNumber, floorNumber, parkingType, available]
+    PricingRule:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        vehicleType:
+          type: integer
+        freeParkingHours:
+          type: integer
+        hourlyRate:
+          type: number
+          format: double
+        active:
+          type: boolean
+    PricingRuleCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        vehicleType:
+          type: integer
+        freeParkingHours:
+          type: integer
+        hourlyRate:
+          type: number
+          format: double
+        active:
+          type: boolean
+      required: [name, vehicleType, hourlyRate, active]
