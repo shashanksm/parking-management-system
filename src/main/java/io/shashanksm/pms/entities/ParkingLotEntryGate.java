@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class ParkingLotEntryGate {
 
 	@Column(name = "gate_number")
-	private int gateNumber;
+	private Integer gateNumber;
 
 	@Id
 	@Column(name = "id")
@@ -33,7 +33,7 @@ public class ParkingLotEntryGate {
 
 	}
 
-	public ParkingLotEntryGate(long id, int gateNumber, ParkingLot parkingLot) {
+	public ParkingLotEntryGate(Long id, Integer gateNumber, ParkingLot parkingLot) {
 		super();
 		this.gateNumber = gateNumber;
 		this.parkingLot = parkingLot;
@@ -51,11 +51,11 @@ public class ParkingLotEntryGate {
 		return id == other.id;
 	}
 
-	public int getGateNumber() {
+	public Integer getGateNumber() {
 		return gateNumber;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -68,11 +68,11 @@ public class ParkingLotEntryGate {
 		return Objects.hash(id);
 	}
 
-	public void setGateNumber(int gateNumber) {
+	public void setGateNumber(Integer gateNumber) {
 		this.gateNumber = gateNumber;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

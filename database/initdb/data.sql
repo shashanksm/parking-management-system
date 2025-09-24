@@ -142,3 +142,16 @@ VALUES ('KA03BB1234', 'Priya Patel', 1);
 
 INSERT INTO vehicle (vehicle_number, owner, type) 
 VALUES ('GJ06CD5678', 'Sunita Rao', 2);
+
+
+-- 1. Rule for Vehicle Type 1 (e.g., compact/two-wheeler)
+INSERT INTO pricing_rule (name, description, created_at, active, vehicle_type, free_parking_hours, hourly_rate)
+VALUES ('default_type_1', 'Compact/Two-wheeler rate (Type 1)', '2025-09-20 23:31:03+05:30', TRUE, 1, 0, 15.00);
+
+-- 1. Rule for Vehicle Type 2 (e.g., standard car)
+INSERT INTO pricing_rule (name, description, created_at, active, vehicle_type, free_parking_hours, hourly_rate)
+VALUES ('default_type_2', 'Standard rate for general parking (Type 2)', '2025-09-20 23:31:03+05:30', TRUE, 2, 1, 10.00);
+
+-- 3. Rule for Vehicle Type 3 (e.g., large vehicle/SUV)
+INSERT INTO pricing_rule (name, description, created_at, active, vehicle_type, free_parking_hours, hourly_rate)
+VALUES ('default_type_3', 'Premium/Large vehicle rate (Type 3)', '2025-09-20 23:31:03+05:30', TRUE, 3, 1, 20.00);

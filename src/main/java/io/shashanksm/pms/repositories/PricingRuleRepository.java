@@ -22,4 +22,8 @@ public interface PricingRuleRepository extends JpaRepository<PricingRule, Long> 
      * Custom finder method to retrieve all active pricing rules.
      */
     List<PricingRule> findByActiveTrue();
+    
+    public Optional<PricingRule> findByVehicleType(Integer vehicleType);
+
+	
 }
