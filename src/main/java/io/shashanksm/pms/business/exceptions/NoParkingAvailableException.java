@@ -1,5 +1,9 @@
 package io.shashanksm.pms.business.exceptions;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(value = HttpStatus.INSUFFICIENT_STORAGE)
 public class NoParkingAvailableException extends RuntimeException{
 	/**
 	 * 

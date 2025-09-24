@@ -84,7 +84,7 @@ public class ParkingTicketService {
 		Optional<ParkingLotEntryGate> gateOptional = parkingLotEntryGateRepository.findByParkingLotAndGateNumber(parkingLot, gateNumber);
 
 		if (gateOptional.isEmpty()) {
-			throw new InvalidGateDetailsException();
+			throw new InvalidGateDetailsException("gate with parking-lot and gate-number was not found");
 		}
 
 		ParkingLotEntryGate parkingLotEntryGate = gateOptional.get();
