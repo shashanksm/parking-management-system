@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "9bd30b56-4ba6-4772-8b01-3c8d6f3befc2",
+		"name": "parking-lot-application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22832124"
+	},
+	"item": [
+		{
+			"name": "issue-ticket",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"owner\": \"ooooooooo\",\r\n    \"vehicleNumber\": \"aaaaaaaaa\",\r\n    \"vehicleType\": 2,\r\n    \"location\": \"small_mall_1\",\r\n    \"gateNumber\": 1,\r\n    \"entryTime\": \"2025-09-21T11:54:26Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/parking-tickets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"parking-tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-ticket",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "exit",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "parking-lot-api",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "entry-gates-api",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "parking-slot-api",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "entry-gate-distance-api",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "pricing-rules-api",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
